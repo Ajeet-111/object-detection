@@ -4,7 +4,7 @@ import requests
 app = Flask(__name__)
 
 API_URL = "https://api-inference.huggingface.co/models/facebook/detr-resnet-50"
-headers = {"Authorization": "Bearer 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"}
+headers = {"Authorization": "Bearer hf_fHhBcAscNOrVNvNbqbquYGlnAoCC"}
 
 def query(image_file):
     # Send the image file directly to the Hugging Face API
