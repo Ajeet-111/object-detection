@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #dadadd;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .container:hover{
+            /* transform: translate(10px);
+            transition: transform 0.3s ease-out; */
+            box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #4CAF50;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        input[type="file"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #fdfdfd;
+            color:#4CAF50;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 1.1em;
+            
+        }
+
+        button:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        textarea {
+            width: 100%;
+            height: 70px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 10px;
+            resize: none;
+            font-family: inherit;
+            font-size: 14px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        textarea:disabled {
+            background-color: #f9f9f9;
+            color: #666;
+        }
+
+        #speak-btn {
+            cursor: pointer;
+            color: #4CAF50;
+            text-decoration: underline;
+            margin-top: 10px;
+            text-align: center;
+            text-decoration: none;
+            padding: 10px;
+            font-size: 1.05em;
+        }
+        #speak-btn:hover{
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Object Detection</h2>
+        <form action="/" method="post" enctype="multipart/form-data">
+            <label for="photo">Upload your photo:</label>
+            <input type="file" id="photo" name="photo" accept="image/*" required>
+            <button type="submit">Upload</button>
+        </form>
+
+        <h3>Detection Results</h3>
+        <textarea id="result-text" name="result" rows="8" readonly>
+{% if result %}{{ result }}{% else %}No results yet. Please upload an image for detection.{% endif %}
+        </textarea>
+
+        <div id="speak-btn" onclick="readText()">Read Aloud</div>
+    </div>
+
+    <script>
+        let utterance;
+
+        function readText() {
+            const resultText = document.querySelector('#result-text').value.trim();
+            if (resultText && resultText !== "No results yet. Please upload an image for detection.") {
+                utterance = new SpeechSynthesisUtterance(resultText);
+                speechSynthesis.speak(utterance);
+            } else {
+                alert("No summarized text to read.");
+            }
+        }
+
+        function stopSpeech() {
+            if (speechSynthesis.speaking) {
+                speechSynthesis.cancel();
+            }
+        }
+    </script>
+</body>
+
+</html>
